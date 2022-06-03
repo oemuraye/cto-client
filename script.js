@@ -131,7 +131,7 @@ const powerGuage = async () => {
       type: "indicator",
       mode: "gauge+number",
       gauge: {
-        axis: { range: [null, 99999.9], tickwidth: 1, tickcolor: "darkblue" },
+        axis: { range: [null, 999.9], tickwidth: 1, tickcolor: "darkblue" },
         bar: { color: "green" },
         bgcolor: "lightgray",
         borderwidth: 2,
@@ -188,7 +188,7 @@ const energyGuage = async () => {
       type: "indicator",
       mode: "gauge+number",
       gauge: {
-        axis: { range: [null, 9999.99], tickwidth: 1, tickcolor: "darkblue" },
+        axis: { range: [null, 999.99], tickwidth: 1, tickcolor: "darkblue" },
         bar: { color: "green" },
         bgcolor: "lightgray",
         borderwidth: 2,
