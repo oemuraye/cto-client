@@ -1,5 +1,5 @@
 // Chart and Guages Api fetch and rendering
-const url = "http://cto-reading.herokuapp.com/post";
+const url = "https://cto-meter-api.herokuapp.com/post";
 
 
 // Fetching Current Dataset of Readings
