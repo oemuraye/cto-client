@@ -187,7 +187,7 @@ const energyGuage = async () => {
     {
       domain: { x: [0, 1], y: [0, 1] },
       value: energy,
-      number: { valueformat: numberOfDecimals, suffix: "wh" },
+      number: { valueformat: numberOfDecimals, suffix: "kwh" },
       title: { text: "Energy" },
       type: "indicator",
       mode: "gauge+number",
