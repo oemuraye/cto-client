@@ -4,6 +4,7 @@
 }
 
 
+
 .login-box {
     margin-top: 75px;
     height: auto;
@@ -125,4 +126,14 @@ label {
 
 .loginbttm {
     padding: 0px;
+}
+
+@media (max-width: 400px) {
+    header nav .navbar-brand h2 {
+        padding-top: 6px;
+    } 
+    header nav .navbar-brand h2, 
+    header nav .navbar-brand {
+        font-size: 16px ;
+    }
 }

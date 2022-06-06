@@ -261,6 +261,7 @@ let energyChartSet = energyChart = async () => {
 
   energyChartSet = undefined
 };
+energyChart()
 
 // Set Charts and Guage to auto reload 
 setInterval(() => {
