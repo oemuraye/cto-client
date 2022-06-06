@@ -15,17 +15,18 @@ const fetchCurrentData = async () => {
     console.log(error);
   }
 };
-// fetchCurrentData();
 
 // Displaying Readings in Chart
 const currentGuage = async () => {
   const currentData = await fetchCurrentData();
   const current = currentData[currentData.length - 1];
+  let numberOfDecimals = 3;
+
   let data = [
     {
       domain: { x: [0, 1], y: [0, 1] },
       value: current,
-      number: { suffix: "A" },
+      number: { valueformat: numberOfDecimals, suffix: "wh" },
       title: { text: "Current" },
       type: "indicator",
       mode: "gauge+number",
@@ -66,17 +67,18 @@ const fetchVoltageData = async () => {
     console.log(error);
   }
 };
-// fetchVoltageData();
 
 // Displaying Readings in Chart
 const voltageGuage = async () => {
   const voltageData = await fetchVoltageData();
   const voltage = voltageData[voltageData.length - 1];
+  let numberOfDecimals = 3;
+
   let data = [
     {
       domain: { x: [0, 1], y: [0, 1] },
       value: voltage,
-      number: { suffix: "V" },
+      number: { valueformat: numberOfDecimals, suffix: "wh" },
       title: { text: "Voltage" },
       type: "indicator",
       mode: "gauge+number",
@@ -116,17 +118,18 @@ const fetchPowerData = async () => {
     console.log(error);
   }
 };
-// fetchPowerData();
 
 // Displaying Readings in Chart
 const powerGuage = async () => {
   const powerData = await fetchPowerData();
   const power = powerData[powerData.length - 1];
+  let numberOfDecimals = 3
+
   let data = [
     {
       domain: { x: [0, 1], y: [0, 1] },
       value: power,
-      number: { suffix: "W" },
+      number: { valueformat: numberOfDecimals, suffix: "wh" },
       title: { text: "Power" },
       type: "indicator",
       mode: "gauge+number",
@@ -172,23 +175,24 @@ const fetchEnergyData = async () => {
     console.log(error);
   }
 };
-// fetchEnergyData()
 
 // Displaying Readings in Gauge
 const energyGuage = async () => {
   const { energyDataSet } = await fetchEnergyData();
   const energy = energyDataSet[energyDataSet.length - 1];
 
+  let numberOfDecimals = 3;
+
   let data = [
     {
       domain: { x: [0, 1], y: [0, 1] },
       value: energy,
-      number: { suffix: "Wh" },
+      number: { valueformat: numberOfDecimals, suffix: "wh" },
       title: { text: "Energy" },
       type: "indicator",
       mode: "gauge+number",
       gauge: {
-        axis: { range: [null, 999.99], tickwidth: 1, tickcolor: "darkblue" },
+        axis: { range: [0.0, 999.99], tickwidth: 1, tickcolor: "darkblue" },
         bar: { color: "green" },
         bgcolor: "lightgray",
         borderwidth: 2,
@@ -207,16 +211,14 @@ const energyGuage = async () => {
     margin: { t: 0, b: 0 },
     paper_bgcolor: "lavender",
   };
+  Plotly.setPlotConfig({ locale: "de-CH" });
   Plotly.newPlot("energy-gauge", data, layout);
 };
 energyGuage();
 
-// Displaying Readings in Chart
-const energyChart = async () => {
-  const { energyDataSet, time } = await fetchEnergyData();
-
+let myChart = null
+const createChart = (energyDataSet, time) => {
   const labels = [...time];
-  // console.log(time);
 
   const data = {
     labels: labels,
@@ -225,6 +227,7 @@ const energyChart = async () => {
         label: "Energy dataset",
         backgroundColor: "rgb(255, 99, 132)",
         borderColor: "rgb(255, 99, 132)",
+        state: "0.01",
         data: [...energyDataSet],
       },
     ],
@@ -233,12 +236,37 @@ const energyChart = async () => {
   const config = {
     type: "line",
     data: data,
-    options: {},
+    options: {
+      plugins: {
+        datalabels: {
+          anchor: "end",
+          align: "top",
+          font: {
+            weight: "bold",
+            size: 10,
+          },
+        },
+      },
+    },
   };
 
+  Chart.register(ChartDataLabels);
   const ctx = document.getElementById("energy-chart");
-  const myChart = new Chart(ctx, config);
-  return myChart;
+  if (myChart != null) {
+    myChart.update()
+  }
+  myChart = new Chart(ctx, config);
+}
+
+// const destoryChart = () => {
+//   myChart.destory()
+// }
+
+// Displaying Readings in Chart
+const energyChart = async () => {
+  const { energyDataSet, time } = await fetchEnergyData();
+  
+  createChart(energyDataSet, time)
 };
 
 energyChart();
@@ -250,7 +278,6 @@ setInterval(() => {
   voltageGuage();
   powerGuage();
   energyGuage();
-  // energyChart().destory();
   // energyChart();  
 }, 5000);
 
