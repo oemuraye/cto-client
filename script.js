@@ -26,7 +26,7 @@ const currentGuage = async () => {
     {
       domain: { x: [0, 1], y: [0, 1] },
       value: current,
-      number: { valueformat: numberOfDecimals, suffix: "wh" },
+      number: { valueformat: numberOfDecimals, suffix: "A" },
       title: { text: "Current" },
       type: "indicator",
       mode: "gauge+number",
@@ -78,7 +78,7 @@ const voltageGuage = async () => {
     {
       domain: { x: [0, 1], y: [0, 1] },
       value: voltage,
-      number: { valueformat: numberOfDecimals, suffix: "wh" },
+      number: { valueformat: numberOfDecimals, suffix: "V" },
       title: { text: "Voltage" },
       type: "indicator",
       mode: "gauge+number",
@@ -129,7 +129,7 @@ const powerGuage = async () => {
     {
       domain: { x: [0, 1], y: [0, 1] },
       value: power,
-      number: { valueformat: numberOfDecimals, suffix: "wh" },
+      number: { valueformat: numberOfDecimals, suffix: "W" },
       title: { text: "Power" },
       type: "indicator",
       mode: "gauge+number",
@@ -211,12 +211,10 @@ const energyGuage = async () => {
     margin: { t: 0, b: 0 },
     paper_bgcolor: "lavender",
   };
-  Plotly.setPlotConfig({ locale: "de-CH" });
   Plotly.newPlot("energy-gauge", data, layout);
 };
 energyGuage();
 
-let myChart = null
 const createChart = (energyDataSet, time) => {
   const labels = [...time];
 
@@ -252,25 +250,17 @@ const createChart = (energyDataSet, time) => {
 
   Chart.register(ChartDataLabels);
   const ctx = document.getElementById("energy-chart");
-  if (myChart != null) {
-    myChart.update()
-  }
   myChart = new Chart(ctx, config);
 }
 
-// const destoryChart = () => {
-//   myChart.destory()
-// }
-
 // Displaying Readings in Chart
-const energyChart = async () => {
+let energyChartSet = energyChart = async () => {
   const { energyDataSet, time } = await fetchEnergyData();
   
   createChart(energyDataSet, time)
+
+  energyChartSet = undefined
 };
-
-energyChart();
-
 
 // Set Charts and Guage to auto reload 
 setInterval(() => {
@@ -278,7 +268,6 @@ setInterval(() => {
   voltageGuage();
   powerGuage();
   energyGuage();
-  // energyChart();  
 }, 5000);
 
 
