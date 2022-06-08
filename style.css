@@ -3,7 +3,12 @@
     font-family: 'Roboto', sans-serif;
 }
 
-
+.btn-success:focus {
+   box-shadow: none !important;
+}
+.btn-success:hover {
+   transform: scale(0.98);
+}
 
 .login-box {
     margin-top: 75px;
