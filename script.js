@@ -1,5 +1,6 @@
 // Chart and Guages Api fetch and rendering
-const url = "https://cto-reading-api.herokuapp.com/post";
+const url = "https://iot-proj.onrender.com/post";
+// const url = "https://cto-reading-api.herokuapp.com/post";
 
 
 // Fetching Current Dataset of Readings
